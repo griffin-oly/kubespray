@@ -46,6 +46,7 @@ AVAILABLE_COMMANDS = ['help', 'print_cfg', 'print_ips', 'load']
 _boolean_states = {'1': True, 'yes': True, 'true': True, 'on': True,
                    '0': False, 'no': False, 'false': False, 'off': False}
 yaml = YAML()
+yaml.Representer.add_representer(OrderedDict, yaml.Representer.represent_dict)
 
 
 def get_var_as_bool(name, default):
@@ -127,15 +128,13 @@ class KubesprayInventory(object):
             if group == 'all':
                 self.debug("Adding group {0}".format(group))
                 if group not in self.yaml_config:
-                    self.yaml_config = {'all':
-                                        {'hosts': {},
-                                         'vars':
-                                         {'ansible_user': 'centos'},
-                                         'children': {}}}
+                    all_dict = OrderedDict([('hosts', OrderedDict({})),
+                                            ('children', OrderedDict({}))])
+                    self.yaml_config = {'all': all_dict }
             else:
                 self.debug("Adding group {0}".format(group))
                 if group not in self.yaml_config['all']['children']:
-                    self.yaml_config['all']['children'][group] = {'hosts': None}
+                    self.yaml_config['all']['children'][group] = {'hosts': {}}
 
     def get_host_id(self, host):
         '''Returns integer host ID (without padding) from a given hostname.'''

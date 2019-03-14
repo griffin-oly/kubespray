@@ -1,47 +1,43 @@
+---
 all:
   hosts:
     node1:
       ansible_host: 10.160.43.118
       ip: 10.160.43.118
-      access_ip: 10.160.43.118
+      # access_ip: 10.160.43.118
     node2:
       ansible_host: 10.164.46.162
       ip: 10.164.46.162
-      access_ip: 10.164.46.162
+      # access_ip: 10.164.46.162
     node3:
       ansible_host: 10.160.46.89
       ip: 10.160.46.89
-      access_ip: 10.160.46.89
+      # access_ip: 10.160.46.89
     node4:
-      ansible_host: 10.164.46.169
-      ip: 10.164.46.169
-      access_ip: 10.164.46.169
-    node5:
       ansible_host: 10.160.46.88
       ip: 10.160.46.88
-      access_ip: 10.160.46.88
+      # access_ip: 10.160.46.88
   vars:
     ansible_user: loc_ansible
   children:
-    k8s-cluster:
-      children:
-        kube-master:
-        kube-node:
+    kube-master:
+      hosts:
+        node1:
+        node2:
     kube-node:
       hosts:
         node1:
         node2:
         node3:
         node4:
-        node5:
     etcd:
       hosts:
         node1:
         node2:
         node3:
+    k8s-cluster:
+      children:
+        kube-master:
+        kube-node:
     calico-rr:
       hosts:
-    kube-master:
-      hosts:
-        node1:
-        node2:

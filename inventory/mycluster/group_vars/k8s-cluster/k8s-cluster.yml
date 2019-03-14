@@ -8,6 +8,7 @@ kube_script_dir: "{{ bin_dir }}/kubernetes-scripts"
 kube_manifest_dir: "{{ kube_config_dir }}/manifests"
 
 # This is where all the cert scripts and certs will be located
+# kube_cert_dir: "{{ kube_config_dir }}/ssl"
 kube_cert_dir: "{{ kube_config_dir }}/ssl"
 
 # This is where all of the bearer tokens will be stored
@@ -19,7 +20,7 @@ kube_users_dir: "{{ kube_config_dir }}/users"
 kube_api_anonymous_auth: true
 
 ## Change this to use another Kubernetes version, e.g. a current beta release
-kube_version: v1.13.3
+kube_version: v1.13.4
 
 # kubernetes image repo define
 kube_image_repo: "gcr.io/google-containers"
@@ -123,7 +124,6 @@ kube_encrypt_secret_data: false
 
 # DNS configuration.
 # Kubernetes cluster name, also will be used as DNS domain
-# Originally cluster.local
 cluster_name: cluster.local
 # Subdomains of DNS domain to be resolved via /etc/resolv.conf for hostnet pods
 ndots: 2
@@ -174,7 +174,7 @@ podsecuritypolicy_enabled: false
 # Make a copy of kubeconfig on the host that runs Ansible in {{ inventory_dir }}/artifacts
 # kubeconfig_localhost: false
 # Download kubectl onto the host that runs Ansible in {{ bin_dir }}
-# kubectl_localhost: false
+kubectl_localhost: true
 
 # dnsmasq
 # dnsmasq_upstream_dns_servers:
